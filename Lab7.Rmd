@@ -13,9 +13,9 @@ library(ggstatsplot)
 library(performance)
 library(sjPlot)
 
-ex <- read_sav("C:/Users/Colin/Documents/GitHub/Website/Lab7/ex.sav")
+ex <- read_sav("C:/Users/ajsut/Documents/GitHub/Lab7/ex.sav")
 
-lab7<-read.csv("C:/Users/Colin/Documents/GitHub/Website/Lab7/lab7.csv")
+lab7<-read.csv("C:/Users/ajsut/Documents/GitHub/Lab7/lab7.csv")
 
 
 
@@ -71,14 +71,29 @@ plot_model(model,  type ="est",  show.values = TRUE, vline.color = "#1B191999", 
 
 # Q1: Use the Corr or the ggcorrmat function to plot the correlation between all variables. Which personality traits are correlated with satisfaction with life and which one is not? 
 ```{r}
-
+Corr(lab7)
+#Extraversion, Agreeableness, Conscientiousness, and Emotional Stability are all significantly positively correlated with satisfaction with life. Openness is not sigificantly correlated.
 ```
 
 # Q2: Run a multiple regression using the Big 5 personality traits to predict satisfaction with life and plot the results
 ```{r}
 #for this lab assignment you would assume assumptions are met, but for your own analysis, you will need to examine assumptions carefully
 
+model<-lm(SWL ~ Extraversion + Agreeableness + Conscientiousness + EmotionalStability + Openness, data = lab7)
+
+check_model(model)
+
+model_summary(model)
+
+tab_model(model)
+
+plot_model(model,  type ="est",  show.values = TRUE, vline.color = "#1B191999", line.size = 1.5, dot.size = 2.5, colors = "black") + theme_bruce()
 
 ```
 
 # Q3: Interpret the R2. Which personality trait(s) can explain unique variance in satisfaction with life when controlling for each other, and which ones cannot? If someone asks you for advice on how to improve life satisfaction, based on your results, which personality trait would you recommend them to change and why? 
+
+Extraversion, Emotional stability, and Openness stand out as unique predictors of variance in SWL. Extraversion and Emotional stability are positively related to SWL, and Openness is negatively related to SWL. 
+These results demonstrate that Extraversion and Emotional stability are especially related to increases in SWL, even when controlling for other traits, so I would particularly emphasize people to change these ones to see improvements.
+
+Openness is inversely correlated with SWL, but I wouldn't instruct someone to be less open in order to improve SWL... It's only slightly significant after all.
